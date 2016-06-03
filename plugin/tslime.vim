@@ -21,13 +21,7 @@ endfunction
 " Main function.
 " Use it in your script if you want to send text to a tmux session.
 function! Send_to_Tmux(text)
-  if !exists("g:tslime")
-    call <SID>Tmux_Vars()
-  endif
-
-  call <SID>set_tmux_buffer(a:text)
-  call system("tmux paste-buffer -t " . s:tmux_target())
-  call system("tmux delete-buffer")
+  call Send_keys_to_Tmux('"'.escape(a:text, '\"$').'"')
 endfunction
 
 function! s:tmux_target()
