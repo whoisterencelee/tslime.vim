@@ -21,7 +21,7 @@ endfunction
 " Main function.
 " Use it in your script if you want to send text to a tmux session.
 function! Send_to_Tmux(text)
-  if exists("g:tslime_autoset_pane")
+  if exists("g:tslime_autoset_pane") && g:tslime_autoset_pane
     call <SID>Tmux_Vars() 
   endif
   call Send_keys_to_Tmux('"'.escape(a:text, '\"$').'"')
@@ -52,7 +52,7 @@ endfunction
 
 " Pane completion
 function! Tmux_Pane_Numbers(A,L,P)
-  if exists("g:tslime_autoset_pane")
+  if exists("g:tslime_autoset_pane") && g:tslime_autoset_pane
     return <SID>AutoTmuxPanes()
   else
     return <SID>TmuxPanes()
@@ -145,7 +145,7 @@ function! s:Tmux_Vars()
 
   let g:tslime['window'] =  substitute(window, ":.*$" , '', 'g')
 
-  if exists("g:tslime_autoset_pane")
+  if exists("g:tslime_autoset_pane") && g:tslime_autoset_pane
     let panes = s:AutoTmuxPanes()
   else
     let panes = s:TmuxPanes()
