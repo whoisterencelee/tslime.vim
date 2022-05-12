@@ -24,7 +24,7 @@ function! Send_to_Tmux(text)
   if exists("g:tslime_autoset_pane") && g:tslime_autoset_pane
     call <SID>Tmux_Vars() 
   endif
-  call Send_keys_to_Tmux('"'.escape(a:text, '\"$').'"')
+  call Send_keys_to_Tmux('"'.escape(a:text, '\"$`').'"')
 endfunction
 
 function! s:tmux_target()
