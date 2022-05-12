@@ -36,8 +36,12 @@ function! s:set_tmux_buffer(text)
   call system("tmux load-buffer -", buf)
 endfunction
 
-function! SendToTmux(text)
-  call Send_to_Tmux(a:text)
+function! Uglify(text)
+  return system('babel --no-babelrc --no-comments --minified ',a:text)
+endfunction
+
+function! SendtoTmux(text)
+  call Send_to_Tmux(Uglify(a:text))
 endfunction
 
 " Session completion
@@ -161,10 +165,15 @@ function! s:Tmux_Vars()
   endif
 endfunction
 
-vnoremap <silent> <Plug>SendSelectionToTmux "ry :call Send_to_Tmux(@r)<CR>
+vnoremap <silent> <Plug>SendSelectionToTmux "ry :call SendtoTmux(@r)<CR>
 nmap     <silent> <Plug>NormalModeSendToTmux vip<Plug>SendSelectionToTmux
 
 nnoremap          <Plug>SetTmuxVars :call <SID>Tmux_Vars()<CR>
 
 command! -nargs=* Tmux call Send_to_Tmux('<Args><CR>')
 
+vmap <C-c><C-c> <Plug>SendSelectionToTmux
+vmap <C-c>t "ry :echo Send_to_Tmux(@r)<CR>
+nmap <C-c><C-c> <Plug>NormalModeSendToTmux
+nmap <C-c>t vip "ry :echo Send_to_Tmux(@r)<CR>
+nmap <C-c>s <Plug>SetTmuxVars
